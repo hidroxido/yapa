@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FFD180</color> <!-- Amarillo suave -->
     <color name="colorPrimaryDark">#FFAB40</color> <!-- Naranja suave -->
-    <color name="colorAccent">#FF7B07</color> <!-- Amarillo acentuado -->
+    <color name="colorAccent">#FF7B07</color> <!-- Amarillo acentuado  -->
     <color name="colorBackground">#FFE0B2</color> <!-- Fondo beige claro -->
     <color name="colorTextPrimary">#FFFFFF</color> <!-- Texto blanco -->
     <color name="colorTextSecondary">#757575</color> <!-- Texto gris -->
