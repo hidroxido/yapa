@@ -8,6 +8,18 @@
     tools:context=".MainActivity"
     android:background="@color/colorPrimary">
 
+    <TextView
+        android:id="@+id/conectivityText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@+id/editTextIP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034" />
+
     <EditText
         android:id="@+id/editTextIP"
         android:layout_width="0dp"
@@ -44,6 +56,7 @@
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pagina_web"

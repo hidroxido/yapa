@@ -171,3 +171,15 @@ Claro, aquí tienes una descripción detallada de los elementos en el paquete de
      - Facilita el acceso a datos históricos para su visualización en la aplicación.
 
 Estas clases en el paquete de utilidades `com.tuapp.monitoreo.util` son esenciales para el funcionamiento de la aplicación de monitoreo de servidores y páginas web. Cada una cumple un papel específico en la gestión de servidores, páginas web, monitoreo, notificaciones y registros históricos, lo que permite a los usuarios mantener un control completo sobre sus recursos en línea y recibir alertas cuando se detectan problemas.
+
+
+       // Configura el Listener del botón
+//        btnTest.setOnClickListener(v -> testServerOrWebAvailability());
+//
+//        if (NetworkUtils.isWiFiConnected(getApplicationContext())) {
+//            conectivityTest.setText(getString(R.string.WiFi));
+//        } else if (NetworkUtils.isMobileDataConnected(getApplicationContext())) {
+//            conectivityTest.setText(getString(R.string.MobileData));
+//        } else {
+//            conectivityTest.setText(getString(R.string.NoNetwork));
+//        }

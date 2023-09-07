@@ -1,19 +1,27 @@
 package com.radioccc.yetanotherpingapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView connectivityTest;
+    private NetworkChangeCallback networkChangeCallback;
     private EditText editTextIP;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchServerOrWeb;
@@ -21,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private ListView listViewResults;
     private ArrayAdapter<String> resultsAdapter;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Inicializa las vistas y adaptadores
+        connectivityTest = findViewById(R.id.conectivityText);
         editTextIP = findViewById(R.id.editTextIP);
         switchServerOrWeb = findViewById(R.id.switchServerOrWeb);
         btnTest = findViewById(R.id.btnTest);
@@ -37,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
         editTextIP.setText("google.cl");
 
-        // Configura el Listener del botón
-        btnTest.setOnClickListener(v -> testServerOrWebAvailability());
+        // Inicializa el NetworkCallback para detectar cambios en la conectividad.
+        networkChangeCallback = new NetworkChangeCallback();
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        connectivityManager.registerNetworkCallback(builder.build(), networkChangeCallback);
 
         // Configura el Listener del interruptor
         switchServerOrWeb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Cambia el texto del botón según el estado del interruptor
@@ -78,5 +89,39 @@ public class MainActivity extends AppCompatActivity {
             // El interruptor está en OFF, verifica el servidor en un hilo
             //new CheckServerTask().execute(inputText);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Asegúrate de desregistrar el NetworkCallback cuando la actividad se destruye.
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        connectivityManager.unregisterNetworkCallback(networkChangeCallback);
+    }
+
+    private class NetworkChangeCallback extends ConnectivityManager.NetworkCallback {
+        @Override
+        public void onAvailable(@NonNull Network network) {
+            super.onAvailable(network);
+            updateConnectivityText();
+        }
+
+        @Override
+        public void onLost(@NonNull Network network) {
+            super.onLost(network);
+            updateConnectivityText();
+        }
+    }
+
+    private void updateConnectivityText() {
+        runOnUiThread(() -> {
+            if (NetworkUtils.isWiFiConnected(getApplicationContext())) {
+                connectivityTest.setText(getString(R.string.WiFi));
+            } else if (NetworkUtils.isMobileDataConnected(getApplicationContext())) {
+                connectivityTest.setText(getString(R.string.MobileData));
+            } else {
+                connectivityTest.setText(getString(R.string.NoNetwork));
+            }
+        });
     }
 }
