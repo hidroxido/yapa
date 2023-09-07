@@ -1,6 +1,6 @@
 package com.radioccc.yetanotherpingapp;
 
-import android.os.AsyncTask;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,11 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextIP;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchServerOrWeb;
     private Button btnTest;
     private ListView listViewResults;
     private ArrayAdapter<String> resultsAdapter;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +35,14 @@ public class MainActivity extends AppCompatActivity {
         resultsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         listViewResults.setAdapter(resultsAdapter);
 
+        editTextIP.setText("google.cl");
+
         // Configura el Listener del botón
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testServerOrWebAvailability();
-            }
-        });
+        btnTest.setOnClickListener(v -> testServerOrWebAvailability());
 
         // Configura el Listener del interruptor
         switchServerOrWeb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Cambia el texto del botón según el estado del interruptor
@@ -56,35 +56,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testServerOrWebAvailability() {
-        String inputText = editTextIP.getText().toString();
+        final String inputText = "https://" + editTextIP.getText().toString();
 
-        // Verifica el estado del interruptor y realiza la verificación correspondiente
+        // Verifica el estado del interruptor y realiza la verificación correspondiente en un hilo
         if (switchServerOrWeb.isChecked()) {
-            // El interruptor está en ON, verifica la página web en segundo plano
-            new CheckWebsiteTask().execute(inputText);
+            // El interruptor está en ON, verifica la página web en un hilo
+            new Thread(() -> {
+                final int result = MonitorUtils.checkWebsiteAvailability(inputText);
+                // Actualiza la interfaz de usuario en el hilo principal
+                runOnUiThread(() -> {
+                    if (result != -1) {
+                        String[] httpcode = HttpStatusUtils.getHttpStatusInfo(result);
+                        String resultText = "Código de respuesta HTTP: " + httpcode[0] + "\n" + httpcode[1] + "\n" + httpcode[2];
+                        resultsAdapter.add(resultText);
+                    } else {
+                        resultsAdapter.add("Error al conectar a la página web.");
+                    }
+                });
+            }).start();
         } else {
-            // El interruptor está en OFF, verifica el servidor en segundo plano
+            // El interruptor está en OFF, verifica el servidor en un hilo
             //new CheckServerTask().execute(inputText);
-        }
-    }
-
-    private class CheckWebsiteTask extends AsyncTask<String, Void, Integer> {
-        @Override
-        protected Integer doInBackground(String... params) {
-            // Llamar al método para verificar disponibilidad de página web en segundo plano
-            String url = params[0];
-            return MonitorUtils.checkWebsiteAvailability(url);
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            // Actualizar la interfaz de usuario con el resultado
-            if (result != -1) {
-                String resultText = "Código de respuesta HTTP: " + result;
-                resultsAdapter.add(resultText);
-            } else {
-                resultsAdapter.add("Error al conectar a la página web.");
-            }
         }
     }
 }

@@ -11,11 +11,12 @@
     <EditText
         android:id="@+id/editTextIP"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Introduce la IP o servidor"
+        android:layout_height="48dp"
+        android:hint="@string/introduce_la_ip_o_servidor"
         android:inputType="text"
         android:layout_marginTop="32dp"
         android:backgroundTint="@android:color/white"
+        android:autofillHints="www.google.cl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Probar"
+        android:text="@string/probar"
         android:backgroundTint="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,17 +35,18 @@
     <Switch
         android:id="@+id/switchServerOrWeb"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="IP de servidor"
+        android:layout_height="48dp"
+        android:text="@string/ip_de_servidor"
         app:layout_constraintTop_toBottomOf="@id/btnTest"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Página web"
+        android:text="@string/pagina_web"
         app:layout_constraintBottom_toTopOf="@+id/listViewResults"
         app:layout_constraintStart_toEndOf="@+id/switchServerOrWeb"
         app:layout_constraintTop_toBottomOf="@+id/btnTest" />
