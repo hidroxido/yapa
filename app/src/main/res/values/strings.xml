@@ -2,7 +2,7 @@
     <string name="app_name">Yet Another Ping App</string>
     <string name="introduce_la_ip_o_servidor">Introduce la IP o servidor</string>
     <string name="probar">Probar</string>
-    <string name="ip_de_servidor">IP de servidor</string>
+    <string name="ip_de_servidor">Servidor</string>
     <string name="pagina_web">Página web</string>
     <string name="WiFi">WiFi</string>
     <string name="MobileData">Datos Moviles</string>

@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
         connectivityManager.registerNetworkCallback(builder.build(), networkChangeCallback);
 
+        // Configura el Listener del botón
+        btnTest.setOnClickListener(v -> testServerOrWebAvailability());
+
         // Configura el Listener del interruptor
         switchServerOrWeb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testServerOrWebAvailability() {
-        final String inputText = "https://" + editTextIP.getText().toString();
+        final String inputText = "" + editTextIP.getText().toString();
 
         // Verifica el estado del interruptor y realiza la verificación correspondiente en un hilo
         if (switchServerOrWeb.isChecked()) {
@@ -87,7 +90,17 @@ public class MainActivity extends AppCompatActivity {
             }).start();
         } else {
             // El interruptor está en OFF, verifica el servidor en un hilo
-            //new CheckServerTask().execute(inputText);
+            new Thread(() -> {
+                boolean isReachable = MonitorUtils.isServerReachable(inputText);
+                // Actualiza la interfaz de usuario en el hilo principal
+                runOnUiThread(() -> {
+                    if (isReachable) {
+                        resultsAdapter.add("El servidor en " + inputText + " es alcanzable.");
+                    } else {
+                        resultsAdapter.add("El servidor en " + inputText + " no es alcanzable.");
+                    }
+                });
+            }).start();
         }
     }
 
