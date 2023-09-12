@@ -67,13 +67,14 @@
 
     <ListView
         android:id="@+id/flistViewResults"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="405dp"
+        android:layout_height="484dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fswitchServerOrWeb" />
+        app:layout_constraintTop_toBottomOf="@id/fswitchServerOrWeb"
+        app:layout_constraintVertical_bias="0.139" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

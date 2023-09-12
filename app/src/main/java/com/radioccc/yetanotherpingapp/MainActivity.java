@@ -8,7 +8,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    private ViewPager viewPager2;
     private TabLayout tabLayout;
     private MyPagerAdapter pagerAdapter;
 
@@ -17,11 +17,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = findViewById(R.id.viewPager);
+        viewPager2 = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
 
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        viewPager2.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager2);
     }
 }
