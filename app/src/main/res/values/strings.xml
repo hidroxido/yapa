@@ -7,4 +7,5 @@
     <string name="WiFi">WiFi</string>
     <string name="MobileData">Datos Moviles</string>
     <string name="NoNetwork">No Hay Red</string>
+    <string name="appname">Yet Another Ping App</string>
 </resources>
