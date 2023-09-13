@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -15,9 +18,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class MainActivity extends AppCompatActivity {
+public class SecondaryFragment extends Fragment {
 
     private TextView connectivityTest;
     private NetworkChangeCallback networkChangeCallback;
@@ -29,24 +32,23 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> resultsAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Inicializa las vistas y adaptadores
-        connectivityTest = findViewById(R.id.conectivityText);
-        editTextIP = findViewById(R.id.editTextIP);
-        switchServerOrWeb = findViewById(R.id.switchServerOrWeb);
-        btnTest = findViewById(R.id.btnTest);
-        listViewResults = findViewById(R.id.listViewResults);
-        resultsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        connectivityTest = view.findViewById(R.id.fConectivityTest);
+        editTextIP = view.findViewById(R.id.feditTextIP);
+        switchServerOrWeb = view.findViewById(R.id.fswitchServerOrWeb);
+        btnTest = view.findViewById(R.id.fbtnTest);
+        listViewResults = view.findViewById(R.id.flistViewResults);
+        resultsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1);
         listViewResults.setAdapter(resultsAdapter);
 
         editTextIP.setText("google.cl");
 
         // Inicializa el NetworkCallback para detectar cambios en la conectividad.
         networkChangeCallback = new NetworkChangeCallback();
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
         connectivityManager.registerNetworkCallback(builder.build(), networkChangeCallback);
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        return view;
     }
 
     private void testServerOrWebAvailability() {
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             new Thread(() -> {
                 final int result = MonitorUtils.checkWebsiteAvailability(inputText);
                 // Actualiza la interfaz de usuario en el hilo principal
-                runOnUiThread(() -> {
+                requireActivity().runOnUiThread(() -> {
                     if (result != -1) {
                         String[] httpcode = HttpStatusUtils.getHttpStatusInfo(result);
                         String resultText = "Código de respuesta HTTP: " + httpcode[0] + "\n" + httpcode[1] + "\n" + httpcode[2];
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             new Thread(() -> {
                 boolean isReachable = MonitorUtils.isServerReachable(inputText);
                 // Actualiza la interfaz de usuario en el hilo principal
-                runOnUiThread(() -> {
+                requireActivity().runOnUiThread(() -> {
                     if (isReachable) {
                         resultsAdapter.add("El servidor en " + inputText + " es alcanzable.");
                     } else {
@@ -101,14 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }).start();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Asegúrate de desregistrar el NetworkCallback cuando la actividad se destruye.
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        connectivityManager.unregisterNetworkCallback(networkChangeCallback);
     }
 
     private class NetworkChangeCallback extends ConnectivityManager.NetworkCallback {
@@ -126,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateConnectivityText() {
-        runOnUiThread(() -> {
-            if (NetworkUtils.isWiFiConnected(getApplicationContext())) {
+        requireActivity().runOnUiThread(() -> {
+            if (NetworkUtils.isWiFiConnected(requireContext())) {
                 connectivityTest.setText(getString(R.string.WiFi));
-            } else if (NetworkUtils.isMobileDataConnected(getApplicationContext())) {
+            } else if (NetworkUtils.isMobileDataConnected(requireContext())) {
                 connectivityTest.setText(getString(R.string.MobileData));
             } else {
                 connectivityTest.setText(getString(R.string.NoNetwork));
