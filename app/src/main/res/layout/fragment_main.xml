@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
-
+    android:background="@color/colorPrimary">
     <TextView
-        android:id="@+id/fConectivityTest"
+        android:id="@+id/conectivityText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="----------"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.344"
-        app:layout_constraintStart_toEndOf="@+id/fbtnTest"
-        app:layout_constraintTop_toBottomOf="@+id/feditTextIP" />
+        app:layout_constraintStart_toEndOf="@+id/btnTest"
+        app:layout_constraintTop_toBottomOf="@+id/editTextIP" />
 
     <EditText
-        android:id="@+id/feditTextIP"
+        android:id="@+id/editTextIP"
         android:layout_width="394dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -34,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fbtnTest"
+        android:id="@+id/btnTest"
         android:layout_width="105dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
@@ -43,38 +41,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/feditTextIP" />
+        app:layout_constraintTop_toBottomOf="@id/editTextIP" />
 
     <Switch
-        android:id="@+id/fswitchServerOrWeb"
+        android:id="@+id/switchServerOrWeb"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:text="@string/ip_de_servidor"
-        app:layout_constraintTop_toBottomOf="@id/fbtnTest"
+        app:layout_constraintTop_toBottomOf="@id/btnTest"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
-        android:id="@+id/ftextView2"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pagina_web"
-        app:layout_constraintBottom_toTopOf="@+id/flistViewResults"
-        app:layout_constraintStart_toEndOf="@+id/fswitchServerOrWeb"
-        app:layout_constraintTop_toBottomOf="@+id/fbtnTest" />
+        app:layout_constraintBottom_toTopOf="@+id/listViewResults"
+        app:layout_constraintStart_toEndOf="@+id/switchServerOrWeb"
+        app:layout_constraintTop_toBottomOf="@+id/btnTest" />
 
     <ListView
-        android:id="@+id/flistViewResults"
-        android:layout_width="405dp"
-        android:layout_height="484dp"
+        android:id="@+id/listViewResults"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fswitchServerOrWeb"
-        app:layout_constraintVertical_bias="0.139" />
+        app:layout_constraintTop_toBottomOf="@id/switchServerOrWeb" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

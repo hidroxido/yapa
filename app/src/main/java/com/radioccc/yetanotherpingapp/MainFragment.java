@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class MainFragment extends Fragment {
@@ -33,15 +31,20 @@ public class MainFragment extends Fragment {
     private ArrayAdapter<String> resultsAdapter;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Inicializa las vistas y adaptadores
-        connectivityTest = view.findViewById(R.id.fConectivityTest);
-        editTextIP = view.findViewById(R.id.feditTextIP);
-        switchServerOrWeb = view.findViewById(R.id.fswitchServerOrWeb);
-        btnTest = view.findViewById(R.id.fbtnTest);
-        listViewResults = view.findViewById(R.id.flistViewResults);
+        connectivityTest = rootView.findViewById(R.id.conectivityText);
+        editTextIP = rootView.findViewById(R.id.editTextIP);
+        switchServerOrWeb = rootView.findViewById(R.id.switchServerOrWeb);
+        btnTest = rootView.findViewById(R.id.btnTest);
+        listViewResults = rootView.findViewById(R.id.listViewResults);
         resultsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1);
         listViewResults.setAdapter(resultsAdapter);
 
@@ -70,7 +73,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        return view;
+        return rootView;
     }
 
     private void testServerOrWebAvailability() {
@@ -106,6 +109,14 @@ public class MainFragment extends Fragment {
                 });
             }).start();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Asegúrate de desregistrar el NetworkCallback cuando la vista se destruye.
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        connectivityManager.unregisterNetworkCallback(networkChangeCallback);
     }
 
     private class NetworkChangeCallback extends ConnectivityManager.NetworkCallback {
