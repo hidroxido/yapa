@@ -27,11 +27,21 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             // Personalizar los nombres de las pestañas aquí
-            if (position == 0) {
-                tab.setText("Tab 1");
-            } else {
-                tab.setText("Tab 2");
+            switch (position) {
+                case 0:
+                    tab.setText("Main");
+                    break;
+                case 1:
+                    tab.setText("DB Test");
+                    break;
+                case 2:
+                    tab.setText("Listview");
+                    break;
+                default:
+                    // Manejar cualquier otra posición si es necesario
+                    break;
             }
         }).attach();
+
     }
 }

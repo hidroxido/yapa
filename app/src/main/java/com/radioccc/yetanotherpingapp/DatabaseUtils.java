@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +22,19 @@ public class DatabaseUtils {
     private static final String TABLE_CONFIG = "configurationTable";
 
     // Nombres de las columnas de la tabla principal (mainTable)
-    private static final String COL_MAIN_ID = "ID";
-    private static final String COL_MAIN_NAME = "name";
-    private static final String COL_MAIN_TYPE = "type";
-    private static final String COL_MAIN_HOSTNAME = "hostname";
-    private static final String COL_MAIN_COMMENT = "comment";
+    public static final String COL_MAIN_ID = "ID";
+    public static final String COL_MAIN_NAME = "name";
+    public static final String COL_MAIN_TYPE = "type";
+    public static final String COL_MAIN_HOSTNAME = "hostname";
+    public static final String COL_MAIN_COMMENT = "comment";
 
     // Nombres de las columnas de la tabla de configuración (configurationTable)
-    private static final String COL_CONFIG_ID = "ID";
-    private static final String COL_CONFIG_TIMER = "timer";
-    private static final String COL_CONFIG_HTTP_TYPE = "httpType";
-    private static final String COL_CONFIG_ALERT = "alert";
-    private static final String COL_CONFIG_LAST_CHECK = "lastCheck";
-    private static final String COL_CONFIG_RECORD_LIMIT = "recordLimit";
+    public static final String COL_CONFIG_ID = "ID";
+    public static final String COL_CONFIG_TIMER = "timer";
+    public static final String COL_CONFIG_HTTP_TYPE = "httpType";
+    public static final String COL_CONFIG_ALERT = "alert";
+    public static final String COL_CONFIG_LAST_CHECK = "lastCheck";
+    public static final String COL_CONFIG_RECORD_LIMIT = "recordLimit";
 
     // Sentencias SQL para crear las tablas
     private static final String CREATE_TABLE_MAIN = "CREATE TABLE " + TABLE_MAIN + " (" +
@@ -87,13 +88,17 @@ public class DatabaseUtils {
 
     // Abre la base de datos en modo escritura
     public DatabaseUtils open() throws SQLException {
-        db = DBHelper.getWritableDatabase();
+        if (db == null || !db.isOpen()) {
+            db = DBHelper.getWritableDatabase();
+        }
         return this;
     }
 
     // Cierra la base de datos
     public void close() {
-        DBHelper.close();
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
     }
 
     // Inserta un nuevo registro en la tabla principal (mainTable)
@@ -142,24 +147,14 @@ public class DatabaseUtils {
 
     // Obtiene un solo elemento de la tabla principal (mainTable)
     public Cursor getMain(long id) throws SQLException {
-        Cursor mCursor =
-                db.query(true, TABLE_MAIN, new String[]{COL_MAIN_ID, COL_MAIN_NAME, COL_MAIN_TYPE, COL_MAIN_HOSTNAME, COL_MAIN_COMMENT},
-                        COL_MAIN_ID + "=" + id, null, null, null, null, null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
+        return db.query(true, TABLE_MAIN, new String[]{COL_MAIN_ID, COL_MAIN_NAME, COL_MAIN_TYPE, COL_MAIN_HOSTNAME, COL_MAIN_COMMENT},
+                COL_MAIN_ID + "=" + id, null, null, null, null, null);
     }
 
     // Obtiene un solo elemento de la tabla de configuración (configurationTable)
     public Cursor getConfig(long id) throws SQLException {
-        Cursor mCursor =
-                db.query(true, TABLE_CONFIG, new String[]{COL_CONFIG_ID, COL_CONFIG_TIMER, COL_CONFIG_HTTP_TYPE, COL_CONFIG_ALERT, COL_CONFIG_LAST_CHECK, COL_CONFIG_RECORD_LIMIT},
-                        COL_CONFIG_ID + "=" + id, null, null, null, null, null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
+        return db.query(true, TABLE_CONFIG, new String[]{COL_CONFIG_ID, COL_CONFIG_TIMER, COL_CONFIG_HTTP_TYPE, COL_CONFIG_ALERT, COL_CONFIG_LAST_CHECK, COL_CONFIG_RECORD_LIMIT},
+                COL_CONFIG_ID + "=" + id, null, null, null, null, null);
     }
 
     // Actualiza un registro en la tabla principal (mainTable)
@@ -183,5 +178,28 @@ public class DatabaseUtils {
         return db.update(TABLE_CONFIG, args, COL_CONFIG_ID + "=" + id, null) > 0;
     }
 
-}
+    // Dentro de la clase DatabaseUtils
 
+    // Verifica si un nombre ya existe en la tabla principal (mainTable)
+    public boolean checkNameExists(String name) {
+        Cursor cursor = null;
+        try {
+            open(); // Abre la base de datos antes de realizar la consulta.
+            String query = "SELECT COUNT(*) FROM " + TABLE_MAIN + " WHERE " + COL_MAIN_NAME + " = ?";
+            cursor = db.rawQuery(query, new String[]{name});
+            if (cursor != null && cursor.moveToFirst()) {
+                int count = cursor.getInt(0);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            Log.e("DatabaseUtils", "Error al consultar si el nombre existe: " + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            close(); // Cierra la base de datos después de la consulta.
+        }
+        return false;
+    }
+
+}

@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
-
+    private static final int NUM_TABS = 3;
     public ViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
@@ -16,16 +16,21 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         // Devuelve el fragmento correspondiente a la posición.
-        if (position == 0) {
-            return new MainFragment();
-        } else {
-            return new SecondaryFragment();
+        switch (position) {
+            case 0:
+                return new MainFragment();
+            case 1:
+                return new SecondaryFragment();
+            case 2:
+                return new ThreeFragment(); // Agrega otro fragmento
+            default:
+                return null;
         }
     }
 
     @Override
     public int getItemCount() {
         // Devuelve el número total de fragmentos (en este caso, 2)
-        return 2;
+        return NUM_TABS;
     }
 }

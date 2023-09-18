@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/colorBackground">
 
-    <TextView
+    <!-- EditText para ingresar nombre -->
+    <EditText
+        android:id="@+id/addItemBD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre"
+        android:backgroundTint="@color/colorPrimary" />
+
+    <!-- Spinner para seleccionar "1" o "2" -->
+    <Spinner
+        android:id="@+id/selectHostTypeDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimary" />
+
+    <!-- EditText para ingresar hostname o IP -->
+    <EditText
+        android:id="@+id/addHostnameIPDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hostname o IP"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimary" />
+
+    <!-- EditText para ingresar comentario -->
+    <EditText
+        android:id="@+id/addCommentHostDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Comentario"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:inputType="textMultiLine"
+        android:lines="3" />
+
+    <!-- Botón para agregar a la BD -->
+    <Button
+        android:id="@+id/buttonAddItemDB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorTextSecondary"
-        android:text="Hola Mundo2"
-        android:layout_centerInParent="true" />
+        android:text="Agregar a la BD"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorAccent" />
 
-</RelativeLayout>
+    <!-- ListView para mostrar el contenido de la BD -->
+    <ListView
+        android:id="@+id/listviewItemDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorBackground" />
+
+</LinearLayout>
