@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorDanger">#FF3232</color> <!-- Rojo Fuerte -->
+    <color name="colorWarning">#F6DE00</color> <!-- Amarillo fuerte -->
     <color name="colorPrimary">#FFD180</color> <!-- Amarillo suave -->
     <color name="colorPrimaryDark">#FFAB40</color> <!-- Naranja suave -->
     <color name="colorAccent">#FF7B07</color> <!-- Amarillo acentuado -->

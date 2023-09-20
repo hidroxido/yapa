@@ -9,4 +9,6 @@
     <string name="NoNetwork">No Hay Red</string>
     <string name="appname">Yet Another Ping App</string>
     <string name="apptitle">Yet Another Ping App</string>
+    <string name="server">Servidor</string>
+    <string name="webpage">Pagina Web</string>
 </resources>

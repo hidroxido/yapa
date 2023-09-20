@@ -124,9 +124,34 @@ public class DatabaseUtils {
     }
 
     // Elimina un registro de la tabla principal (mainTable)
-    public boolean deleteMain(long id) {
-        return db.delete(TABLE_MAIN, COL_MAIN_ID + "=" + id, null) > 0;
+    public boolean deleteMainByName(String name) {
+        boolean success = false;
+        try {
+            open(); // Abre la base de datos antes de realizar operaciones en ella.
+            int rowsDeleted = db.delete(TABLE_MAIN, COL_MAIN_NAME + "=?", new String[]{name});
+            success = rowsDeleted > 0;
+        } catch (SQLException e) {
+            Log.e("DatabaseUtils", "Error al abrir la base de datos: " + e.getMessage());
+        } finally {
+            close(); // Cierra la base de datos cuando hayas terminado de usarla.
+        }
+        return success;
     }
+
+    public boolean deleteAllMainEntries() {
+        boolean success = false;
+        try {
+            open(); // Abre la base de datos antes de realizar operaciones en ella.
+            int rowsDeleted = db.delete(TABLE_MAIN, null, null);
+            success = rowsDeleted > 0;
+        } catch (SQLException e) {
+            Log.e("DatabaseUtils", "Error al abrir la base de datos: " + e.getMessage());
+        } finally {
+            close(); // Cierra la base de datos cuando hayas terminado de usarla.
+        }
+        return success;
+    }
+
 
     // Elimina un registro de la tabla de configuración (configurationTable)
     public boolean deleteConfig(long id) {
@@ -134,6 +159,10 @@ public class DatabaseUtils {
     }
 
     // Obtiene todos los registros de la tabla principal (mainTable)
+    public Cursor getAllNameMain(){
+        return db.query(TABLE_MAIN, new String[]{COL_MAIN_NAME},
+                null, null, null, null, null);
+    }
     public Cursor getAllMain() {
         return db.query(TABLE_MAIN, new String[]{COL_MAIN_ID, COL_MAIN_NAME, COL_MAIN_TYPE, COL_MAIN_HOSTNAME, COL_MAIN_COMMENT},
                 null, null, null, null, null);
@@ -201,5 +230,32 @@ public class DatabaseUtils {
         }
         return false;
     }
+
+    public List<String> getAllNamesFromMain() {
+        List<String> names = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            open(); // Abre la base de datos antes de realizar operaciones en ella.
+            cursor = getAllNameMain();
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_MAIN_NAME));
+                    names.add(name);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("DatabaseUtils", "Error al abrir la base de datos: " + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            close(); // Cierra la base de datos cuando hayas terminado de usarla.
+        }
+
+        return names;
+    }
+
 
 }

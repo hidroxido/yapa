@@ -1,5 +1,6 @@
 package com.radioccc.yetanotherpingapp;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -27,12 +28,16 @@ public class SecondaryFragment extends Fragment {
     private EditText editTextHostname;
     private EditText editTextComment;
     private Button addButton;
+    private Spinner spinnerDeleteItem;
+    private Button deleteItemButton;
+    private Button deleteAllButton;
     private ListView listViewResults;
     private ArrayAdapter<String> resultsAdapter;
 
     // Declarar una instancia de DatabaseUtils para trabajar con la base de datos
     private DatabaseUtils databaseUtils;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_secondary, container, false);
@@ -44,18 +49,59 @@ public class SecondaryFragment extends Fragment {
         editTextComment = view.findViewById(R.id.addCommentHostDB);
         addButton = view.findViewById(R.id.buttonAddItemDB);
         listViewResults = view.findViewById(R.id.listviewItemDB);
+        spinnerDeleteItem = view.findViewById(R.id.selectDeleteItem);
+        deleteItemButton = view.findViewById(R.id.buttonDeleteItem);
+        deleteAllButton = view.findViewById(R.id.buttonDeleteBD);
         resultsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1);
         listViewResults.setAdapter(resultsAdapter);
 
         // Crea un ArrayAdapter con los elementos que deseas agregar
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
-        adapter.add("1");
-        adapter.add("2");
+        adapter.add(getString(R.string.server));
+        adapter.add(getString(R.string.webpage));
+
         // Establece el adaptador en el Spinner
         spinnerType.setAdapter(adapter);
 
         // Inicializar la instancia de DatabaseUtils
         databaseUtils = new DatabaseUtils(requireContext());
+
+        deleteItemButton.setOnClickListener(v -> {
+            String item = (String) spinnerDeleteItem.getSelectedItem();
+
+            try {
+                boolean deletionSuccess = databaseUtils.deleteMainByName(item);
+
+                if (deletionSuccess){
+                    loadDatabaseRecords();
+                    updateSpinner();
+                    Toasty.info(requireContext(), "Item '" + item + "' eliminado", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("DatabaseUtils", "Error al eliminar el item en la base de datos.");
+                }
+            } catch (SQLException e){
+                Toasty.error(requireContext(), "Error SQL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        deleteAllButton.setOnClickListener(v -> {
+            try {
+                databaseUtils.open();
+                boolean del = databaseUtils.deleteAllMainEntries();
+
+                if (del){
+                    loadDatabaseRecords();
+                    updateSpinner();
+                    Toasty.info(requireContext(), "Todos los elementos han sido eliminados", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("DatabaseUtils", "Error al eliminar BD");
+                }
+            } catch (SQLException e){
+                Toasty.error(requireContext(), "Error SQL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            } finally {
+                databaseUtils.close();
+            }
+        });
 
 // Configurar el botón para agregar registros a la base de datos y actualizar la lista
         addButton.setOnClickListener(v -> {
@@ -95,8 +141,9 @@ public class SecondaryFragment extends Fragment {
                         Log.e("DatabaseUtils", "Error al abrir la base de datos: " + e.getMessage());
                     } finally {
                         databaseUtils.close(); // Cierra la base de datos cuando hayas terminado de usarla.
+                        loadDatabaseRecords();
+                        updateSpinner();
                     }
-                    loadDatabaseRecords();
                 } else {
                     // El nombre ya existe en la base de datos, muestra un mensaje de error
                     //editTextName.setError("El nombre ya existe en la base de datos");
@@ -114,10 +161,18 @@ public class SecondaryFragment extends Fragment {
         });
 
 
+
         // Cargar registros existentes de la base de datos y mostrarlos en la lista
         loadDatabaseRecords();
+        updateSpinner();
 
         return view;
+    }
+
+    private void updateSpinner() {
+        List<String> names = databaseUtils.getAllNamesFromMain();
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, names);
+        spinnerDeleteItem.setAdapter(spinnerAdapter);
     }
 
     private List<String> cursorToList(Cursor cursor) {
