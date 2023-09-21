@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/colorBackground">
+
+    <!-- Spinner nombre item -->
+    <TextView
+        android:id="@+id/textNameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/nombre_del_recurso"
+        android:backgroundTint="@color/colorPrimary"/>
+
+    <EditText
+        android:id="@+id/addItemBD"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:autofillHints="name"
+        android:backgroundTint="@color/colorPrimary"
+        android:hint="@string/nombre"
+        android:inputType="text"
+        android:textColorHint="#757575" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="379dp"
+        android:layout_height="81dp"
+        android:layout_marginTop="11dp">
+
+        <TextView
+            android:id="@+id/textHostTypeTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="@string/protocolo_de_verificacion"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/selectHostType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.86"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textHostTypeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="@string/tipo_de_recurso"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/selectHostType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Spinner
+            android:id="@+id/selectHostType"
+            android:layout_width="161dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.787"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+
+        <Spinner
+            android:id="@+id/spinnerService"
+            android:layout_width="167dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.584"
+            app:layout_constraintStart_toEndOf="@+id/selectHostType"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.789" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textHostTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/direccion_de_host"
+        android:backgroundTint="@color/colorPrimary"/>
+
+    <EditText
+        android:id="@+id/addHostnameIPDB"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:autofillHints="name"
+        android:backgroundTint="@color/colorPrimary"
+        android:hint="@string/hostname_o_ip"
+        android:inputType="text"
+        android:textColorHint="#757575" />
+
+    <TextView
+        android:id="@+id/textCommentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/comentario"
+        android:backgroundTint="@color/colorPrimary"/>
+
+    <EditText
+        android:id="@+id/addCommentHostDB"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:hint="@string/comentario"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:textColorHint="#757575"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="380dp"
+        android:layout_height="193dp">
+
+        <NumberPicker
+            android:id="@+id/numberPickerRecordLimit"
+            android:layout_width="135dp"
+            android:layout_height="137dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.718"
+            app:layout_constraintStart_toEndOf="@+id/numberPickerTimer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.714" />
+
+        <TextView
+            android:id="@+id/textRecordTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/limite_de_registro_dias"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.737"
+            app:layout_constraintStart_toEndOf="@+id/textTimerTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.068" />
+
+        <NumberPicker
+            android:id="@+id/numberPickerTimer"
+            android:layout_width="135dp"
+            android:layout_height="137dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.714" />
+
+        <TextView
+            android:id="@+id/textTimerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/intervalo_de_ping_minutos"
+            app:layout_constraintBottom_toTopOf="@+id/numberPickerTimer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Spinner para el servicio -->
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchNotify"
+        android:layout_width="150dp"
+        android:layout_height="51dp"
+        android:text="@string/notificaciones"
+        android:backgroundTint="@color/colorPrimary"/>
+
+    <Button
+        android:id="@+id/buttonAddItemDB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/agregar"
+        android:textColor="#4A148C" />
+
+</LinearLayout>

@@ -21,7 +21,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SecondaryFragment extends Fragment {
+public class DBMainTestFragment extends Fragment {
 
     private EditText editTextName;
     private Spinner spinnerType;
@@ -40,7 +40,7 @@ public class SecondaryFragment extends Fragment {
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_secondary, container, false);
+        View view = inflater.inflate(R.layout.fragment_dbmaintest, container, false);
 
         // Inicializar vistas y adaptador
         editTextName = view.findViewById(R.id.addItemBD);

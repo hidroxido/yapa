@@ -11,4 +11,19 @@
     <string name="apptitle">Yet Another Ping App</string>
     <string name="server">Servidor</string>
     <string name="webpage">Pagina Web</string>
+    <string name="nombre_del_recurso">Nombre del recurso</string>
+    <string name="protocolo_de_verificacion">Protocolo de Verificación</string>
+    <string name="tipo_de_recurso">Tipo de recurso</string>
+    <string name="direccion_de_host">Direccion de Host</string>
+    <string name="nombre">Nombre</string>
+    <string name="hostname_o_ip">Hostname o IP</string>
+    <string name="comentario">Comentario</string>
+    <string name="limite_de_registro_dias">Limite de registro (dias)</string>
+    <string name="intervalo_de_ping_minutos">Intervalo de Ping (minutos)</string>
+    <string name="ltima_verificaci_n_exitosa">Última Verificación Exitosa:</string>
+    <string name="dd_mm_aa_hh_mm_ss">DD-MM-AA HH:mm:SS</string>
+    <string name="https">https</string>
+    <string name="http">http</string>
+    <string name="agregar">Agregar</string>
+    <string name="notificaciones">Notificaciones</string>
 </resources>

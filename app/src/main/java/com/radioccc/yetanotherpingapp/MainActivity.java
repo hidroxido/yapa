@@ -32,10 +32,13 @@ public class MainActivity extends AppCompatActivity {
                     tab.setText("Main");
                     break;
                 case 1:
-                    tab.setText("DB Test");
+                    tab.setText("DB Item Test");
                     break;
                 case 2:
-                    tab.setText("Listview");
+                    tab.setText("DB Config Test");
+                    break;
+                case 3:
+                    tab.setText("Listview Test");
                     break;
                 default:
                     // Manejar cualquier otra posición si es necesario

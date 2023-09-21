@@ -9,14 +9,16 @@
     android:background="@color/colorBackground">
 
     <!-- EditText para ingresar nombre -->
+
     <EditText
         android:id="@+id/addItemBD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre"
-        android:backgroundTint="@color/colorPrimary" />
+        android:backgroundTint="@color/colorPrimary"
+        android:hint="Nombre" />
 
     <!-- Spinner para seleccionar "1" o "2" -->
+
     <Spinner
         android:id="@+id/selectHostTypeDB"
         android:layout_width="match_parent"

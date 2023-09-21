@@ -40,16 +40,16 @@ public class DatabaseUtils {
     private static final String CREATE_TABLE_MAIN = "CREATE TABLE " + TABLE_MAIN + " (" +
             COL_MAIN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COL_MAIN_NAME + " TEXT UNIQUE," +
-            COL_MAIN_TYPE + " INTEGER," +
+            COL_MAIN_TYPE + " INTEGER," + // servidor=1 webpage=2 default 1
             COL_MAIN_HOSTNAME + " TEXT," +
             COL_MAIN_COMMENT + " TEXT)";
 
     private static final String CREATE_TABLE_CONFIG = "CREATE TABLE " + TABLE_CONFIG + " (" +
             COL_CONFIG_ID + " INTEGER PRIMARY KEY," +
-            COL_CONFIG_TIMER + " INTEGER," +
-            COL_CONFIG_HTTP_TYPE + " INTEGER," +
+            COL_CONFIG_TIMER + " INTEGER," +  // minutos
+            COL_CONFIG_HTTP_TYPE + " INTEGER," +  //http=0 https==1  default https
             COL_CONFIG_ALERT + " BOOLEAN," +
-            COL_CONFIG_LAST_CHECK + " DATE," +
+            COL_CONFIG_LAST_CHECK + " TEXT," + // DD-MM-AA HH:mm:SS
             COL_CONFIG_RECORD_LIMIT + " INTEGER," +
             "FOREIGN KEY (" + COL_CONFIG_ID + ") REFERENCES " + TABLE_MAIN + " (" + COL_MAIN_ID + ") ON DELETE CASCADE ON UPDATE CASCADE)";
 
@@ -105,7 +105,7 @@ public class DatabaseUtils {
     public long insertMain(String name, int type, String hostname, String comment) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(COL_MAIN_NAME, name);
-        initialValues.put(COL_MAIN_TYPE, type);
+        initialValues.put(COL_MAIN_TYPE, type); //servidor=1 webpage=2 default=1
         initialValues.put(COL_MAIN_HOSTNAME, hostname);
         initialValues.put(COL_MAIN_COMMENT, comment);
         return db.insert(TABLE_MAIN, null, initialValues);
@@ -116,7 +116,7 @@ public class DatabaseUtils {
         ContentValues initialValues = new ContentValues();
         initialValues.put(COL_CONFIG_ID, id);
         initialValues.put(COL_CONFIG_TIMER, timer);
-        initialValues.put(COL_CONFIG_HTTP_TYPE, httpType);
+        initialValues.put(COL_CONFIG_HTTP_TYPE, httpType); //http=1 https=2 default=2
         initialValues.put(COL_CONFIG_ALERT, alert);
         initialValues.put(COL_CONFIG_LAST_CHECK, lastCheck);
         initialValues.put(COL_CONFIG_RECORD_LIMIT, recordLimit);
